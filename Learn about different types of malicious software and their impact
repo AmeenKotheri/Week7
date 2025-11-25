@@ -1,0 +1,137 @@
+a). Malware, Viruses, Worms, Keyloggers, Phishing, Smishing, Spoofing
+1️⃣ Malware (Main Category)
+
+Malware = any harmful software designed to damage systems or steal information.
+It includes viruses, worms, trojans, ransomware, spyware… everything.
+
+Impact:
+Data theft
+System damage
+Unauthorized access
+Financial loss
+Privacy invasion
+
+2️⃣ Viruses
+A virus attaches itself to files or programs and spreads when those files are executed.
+
+Impact:
+Corrupt files
+Slow system
+Data loss
+Spreads to USB drives, network
+
+Example: Michelangelo Virus
+
+3️⃣ Worms
+Worms are similar to viruses but do NOT need user interaction.
+They spread automatically through networks.
+
+Impact:
+Network congestion
+System crashes
+Used to deliver payloads like ransomware
+
+Example: WannaCry worm
+
+4️⃣ Keyloggers
+Programs that record everything a user types.
+
+Impact:
+Steals passwords
+Steals banking information
+Total account takeover
+
+Used in:
+Hacking, spying, credential theft
+
+5️⃣ Phishing
+A social engineering attack where attackers trick users into giving personal information using emails or websites.
+
+Impact:
+Identity theft
+Banking loss
+Corporate data breaches
+
+6️⃣ Smishing
+Phishing via SMS messages.
+
+Example:
+Your bank account is blocked. Click this link.
+
+7️⃣ Spoofing
+Attacker pretends to be someone else (email, caller ID, IP address, website).
+
+Impact:
+Fake login pages
+Man-in-the-middle attacks
+Session hijacking
+
+b).Spyware, backdoors, reverse shells, bind shells
+
+1️⃣ Spyware
+Malware that secretly monitors user activity.
+
+Impact:
+Tracks keystrokes
+Screenshots
+Browsing history
+Sensitive data stolen
+
+2️⃣ Backdoors
+A hidden way to access a device/system without permission.
+
+Impact:
+Remote control of device
+Persistent access
+Pre-installed in many trojans
+
+Example: RAT tools like njRAT, DarkComet
+
+3️⃣ Reverse Shell
+Victim connects back to the attacker’s machine.
+Used when attacker cannot directly reach victim (behind firewall/NAT).
+
+Impact:
+Full remote access
+Execution of commands
+File upload/download
+
+4️⃣ Bind Shell
+Attacker connects directly to a port on the victim’s machine.
+Victim → opens port
+Attacker → connects
+
+Impact:
+Remote shell
+Easier to detect by firewalls
+
+c). Adware, trojans, rootkits
+
+1️⃣ Adware
+Displays unwanted ads in browsers or applications.
+
+Impact:
+Annoying ads
+Pop-ups
+Tracks browsing habits
+May download more malware
+
+2️⃣ Trojan (Trojan Horse)
+Looks like a legitimate program but contains malicious code.
+
+Impact:
+Opens backdoor
+Installs keyloggers
+Steals credentials
+Gives full control to attacker
+
+Example: Fake “Cracked software” downloads
+
+3️⃣ Rootkit
+Allows attackers to hide their presence on a system.
+
+Impact:
+Hides malware
+Gives admin-level access
+Nearly impossible to detect
+Used in advanced persistent threats (APT)
