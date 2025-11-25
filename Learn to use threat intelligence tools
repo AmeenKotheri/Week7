@@ -1,0 +1,42 @@
+Learn to use threat intelligence tools
+a). VirusTotal
+b). AlienVault OTX
+
+VirusTotal (VT):
+
+Web + API service that aggregates antivirus/URL scanners, sandboxing, and community intelligence to analyze files, URLs, domains, and IPs.
+Great for fast triage of suspicious files, hashes, URLs, and seeing community context and behavioral reports.
+
+AlienVault OTX (Open Threat Exchange):
+
+Threat-intel sharing platform where researchers publish “pulses” (collections of IOCs) and contextual info.
+Good for ongoing threat hunting and populating SIEM/blocks with community-sourced IOCs.
+
+practical workflow:
+Detect — get an alert (email link, suspicious file hash, outbound connection to odd domain).
+Lookup — search the indicator (hash / URL / domain / IP) in VirusTotal and OTX.
+Enrich — gather AV detections, sandbox behavior, YARA hits, related indicators, pulses, and tags.
+Assess — evaluate severity: confirmed malicious, suspicious, or benign (use CVSS/CVE context if present).
+Respond — block indicator at firewall/proxy, isolate host, or blacklist domain; add to SIEM for correlation.
+Document — store IoCs and decision in ticketing/RCA and optionally share back to OTX or internal MISP.
+
+Using VirusTotal — step-by-step:
+
+Web UI (fast triage)
+1.Open https://www.virustotal.com/
+2.Paste a file, hash, URL, domain, or IP into the search box.
+3.Read the Summary: detection ratio (e.g., 20/70), scan date, first/last seen.
+4.Check Detections tab: which engines flagged it and which names they used.
+5.Check Behavior / Sandbox (if available): API calls, network connections, created files, dropped files.
+6.Use the Relations / Graph to find related domains, files, or IPs.
+7.Look at Community comments, YARA matches, and any VT Intelligence tags.
+
+Using AlienVault OTX — step-by-step:
+
+Web UI
+1.Go to https://otx.alienvault.com/ and create a free account.
+2.Use the search bar to lookup a domain, IP, or file hash.
+3.View Pulses: collections of IoCs and context (attack patterns, indicators, MITRE ATT&CK mapping).
+4.Review Pulse details: indicators list, tags, confidence, and references.
+5.Subscribe to pulses to receive updates.
+
