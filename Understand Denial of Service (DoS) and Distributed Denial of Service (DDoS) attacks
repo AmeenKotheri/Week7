@@ -1,0 +1,82 @@
+DoS (Denial of Service) — an attack that attempts to make a machine, service, or network resource unavailable to legitimate users by exhausting resources (CPU, memory, bandwidth, sockets, etc.).
+
+DDoS (Distributed DoS) — the same goal, but the attack traffic comes from many distributed systems (a botnet or many compromised hosts), making it harder to block and far more powerful.
+
+Impact: downtime, lost revenue, reputational damage, diversion for other attacks (e.g., while defenders react to DDoS, attackers perform data theft).
+
+DDoS works by overwhelming one or more resources used by a service. 
+There are three common categories of DDoS attack vectors:
+Volumetric (Flood) attacks
+Aim: saturate the target’s network bandwidth or upstream link.
+Examples: UDP flood, ICMP flood, NTP/Chargen amplification.
+Mechanic: send huge volumes of traffic (packets/bytes) until link or appliance is saturated.
+
+Protocol (State-exhaustion) attacks
+Aim: consume resources in network equipment or in the OS network stack (connection tables, stateful firewalls).
+Examples: SYN flood, fragmented packet attacks, TCP connection exhaustion.
+Mechanic: create half-open connections or many stateful sessions so the server runs out of memory or socket slots.
+
+Application-layer (L7) attacks
+Aim: exhaust application server resources by mimicking legitimate requests (high CPU, DB queries).
+Examples: HTTP GET/POST floods, slowloris (keeps HTTP connections open), targeted requests that trigger expensive DB operations.
+Mechanic: fewer packets but high server-side cost per request; harder to distinguish from legitimate users.
+
+Amplification & Reflection: Attackers frequently use third-party UDP protocols that respond with larger replies than the request (NTP, DNS, Memcached, CLDAP). They spoof the victim’s IP in the request so many reflected replies flood the victim — this amplifies attack bandwidth for low attacker cost.
+
+Common tools & botnets used in DDoS:
+Botnets made of compromised IoT devices, routers, or servers (e.g., Mirai family variants). Recent botnets target home routers, IP cameras, etc., because they are numerous and often insecure.
+Attack orchestration tools and services (some sold as “DDoS for hire” / booters) let attackers launch multi-vector campaigns.
+
+How to detect a DoS/DDoS attack (indicators):
+Network indicators:
+-Sudden, sustained spike in inbound traffic (bytes/sec) from many IPs.
+-Many new TCP/UDP flows, high packet per second (pps) rates.
+-Abnormal traffic types (lots of UDP to unusual ports, many SYNs without completes).
+-Large numbers of requests for same URL or many distinct URLs at high rate (application attacks).
+
+Host / service indicators:
+-High CPU, memory, disk I/O on web servers or proxies.
+-Exhausted connection tables, high number of TIME_WAIT or SYN_RECV states.
+-Increased latency, timeouts, or application errors (502/503).
+-Logs showing repeated identical or malformed requests.
+
+Tools for detection:
+-Flow collectors (NetFlow/sFlow/IPFIX) and analytics (look for spikes and unusual top talkers).
+-IDS/IPS (Suricata, Snort) signatures and alerts for abnormal packet patterns.
+-Server metrics: top, htop, ss -s, ss -tunp, netstat -s, webserver access logs, and APM tooling (New Relic, Datadog).
+-Packet capture (tcpdump, Wireshark) for forensic inspection of traffic composition.
+
+How to identify attack type quickly (triage checklist):
+Check volumes: is inbound bandwidth near link capacity? → volumetric.
+Inspect packet types: many UDP to high ports / many small packets → reflection/amplification.
+Check TCP states: many SYN with few completes → SYN flood / protocol attack.
+Look at HTTP logs: many requests per second, repeated user-agents or same resource → application-layer attack.
+
+Quick commands (Linux):
+ss -s (summary of socket states)
+ss -tunp (show connections + owning process)
+iftop/nethogs (live bandwidth per host/process)
+tcpdump -n -c 1000 -w sample.pcap (capture sample traffic for analysis)
+
+Mitigation & defenses (best practices, layered approach):
+DDoS defense is multi-layered — combine on-prem, network, and cloud/provider controls.
+
+Perimeter & network level:
+-Rate limiting / traffic shaping at edge routers.
+-Blackholing / sinkholing: drop all traffic to the attacked IP (last-resort).
+-Anycast & distributed scrubbing: distribute traffic across many POPs, scrub bad traffic in the cloud/CDN before it hits origin.
+-Upstream filtering: ISP or DDoS provider drop malicious flows.
+-SYN cookies and tuning TCP backlog to resist SYN floods.
+
+Application & transport level:
+-WAF (Web Application Firewall) to block malicious HTTP patterns.
+-Challenge-response (CAPTCHA/rate limits) to block automated requests.
+-Connection limits & timeouts to reduce slow attacks (slowloris).
+-Caching & CDNs to absorb volumetric requests and serve cached content.
+
+Organizational & operational:
+-DDoS protection services (Cloudflare, Akamai, Azure DDoS Protection, AWS Shield).
+-Playbooks & runbooks: prewritten response plans and contact lists for ISPs and providers.
+-Traffic baseline & monitoring to detect anomalies early.
+-Capacity planning & redundancy: multi-region deployment and autoscaling.
+
